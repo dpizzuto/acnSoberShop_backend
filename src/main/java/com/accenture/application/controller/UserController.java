@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import com.accenture.application.model.User;
 import com.accenture.application.repository.UserRepository;
 import com.accenture.application.validator.UserValidator;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 //@RequestMapping("/user")
 public class UserController {
