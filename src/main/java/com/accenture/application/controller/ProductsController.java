@@ -1,4 +1,4 @@
-package com.accenture.controller;
+package com.accenture.application.controller;
 
 import java.util.List;
 
@@ -8,32 +8,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.accenture.model.Products;
-import com.accenture.repository.ProductsRepository;
+import com.accenture.application.model.Products;
+import com.accenture.application.repository.ProductsRepository;
 
 
 @RestController
 public class ProductsController {
 	
 	@Autowired 
-	private ProductsRepository repo;
+	ProductsRepository repo;
 	
 	@Autowired
 	public MongoTemplate mongoTemplate;
-	
-	//GET
-	public List<Products> findAll(){
-		List<Products> products = (List<Products>) repo.findAll();
-		return products;
+
+	/* GET */
+	@RequestMapping(value = "/all", method=RequestMethod.GET)
+	public List<Products> getAllProducts(){
+		return (List<Products>) repo.findAll();
 	}
 	
-	/*@RequestMapping(value = "/", method=RequestMethod.GET)
-	public List<Products> getAllProducts(){
-		return repo.findAll();
-	}*/
-	
-	@RequestMapping(value = "/AllProducts", method=RequestMethod.GET)
+	/*@RequestMapping(value = "/AllProducts", method=RequestMethod.GET)
 	public Iterable<Products> getAllProducts(){
 		return repo.findAll();
-	}
+	}*/
 }

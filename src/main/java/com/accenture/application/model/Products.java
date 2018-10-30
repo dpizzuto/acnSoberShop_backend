@@ -1,4 +1,4 @@
-package com.accenture.model;
+package com.accenture.application.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
