@@ -3,6 +3,8 @@ package com.accenture.application.controller;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.accenture.application.model.User;
 import com.accenture.application.repository.UserRepository;
@@ -28,6 +31,7 @@ public class UserController {
 	UserValidator userValidator;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	@ResponseBody
 	public String registration(Model model) {
 		model.addAttribute("UserCollection", new User());
 
@@ -35,27 +39,29 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registration(@Valid @RequestBody User UserCollection, BindingResult bindingResult,Model model) {
+	@ResponseBody
+	public ResponseEntity registration(@Valid @RequestBody User UserCollection, BindingResult bindingResult,Model model) {
 		userValidator.validate(UserCollection, bindingResult);
 
 		if (bindingResult.hasErrors()) {
-			return "User exists";
+			return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
 		}
 
 		repository.save(UserCollection);
-
-		return "redirect:/welcome";
+		return ResponseEntity.ok(UserCollection);
+//		return "Saved Person: " + UserCollection.toString() ;
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam(value = "email") String email,
+	@ResponseBody
+	public ResponseEntity login(@RequestParam(value = "email") String email,
 			@RequestParam(value = "password") String password) {
 		List<User> user = repository.findAll();
 		for (User u : user) {
 			if (email.equals(u.getEmail()) && password.equals(u.getPassword()))
-				return "ok";
+				return new ResponseEntity(HttpStatus.OK);
 		}
-		return "error ";
+		return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
 	}
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
