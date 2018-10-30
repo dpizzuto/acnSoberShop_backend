@@ -34,7 +34,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registration(@Valid @RequestBody User UserCollection, BindingResult bindingResult, Model model) {
+	public String registration(@Valid @RequestBody User UserCollection, BindingResult bindingResult,Model model) {
 		userValidator.validate(UserCollection, bindingResult);
 
 		if (bindingResult.hasErrors()) {
@@ -68,7 +68,7 @@ public class UserController {
 		return (List<User>) repository.findAll();
 	}
 
-	/* GET */
+	/* GET EMAIL*/
 	@RequestMapping(value = "/{email}", method = RequestMethod.GET)
 	public User getUserByEmail(@PathVariable("email") String email) {
 		return repository.findByEmail(email);

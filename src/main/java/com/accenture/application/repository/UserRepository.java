@@ -2,8 +2,6 @@ package com.accenture.application.repository;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.accenture.application.model.User;
